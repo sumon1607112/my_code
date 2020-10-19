@@ -1,166 +1,142 @@
 #include <bits/stdc++.h>
 #define ll long long int
-using namespace std;
-struct link_list{
-  ll value;
-  struct link_list *next;
 
+
+using namespace std;
+struct double_linked_list{
+
+ ll value;
+ struct double_linked_list *next;
+ struct double_linked_list *previous;
 
 };
-typedef struct link_list node;
-node *Head=NULL ,*Last=NULL;
-///Delete a Node
-void DeleteNode(node *currentNode,ll source)
-{
-    currentNode=Head;
-    node *tempNode,*itemNode;
-    if(Head->value==source)
-    {
-        Head=currentNode->next;
-        return;
-    }
-    while(currentNode!=NULL)
-    {
+typedef struct double_linked_list node;
+node *Head=NULL,*Tail=NULL;
 
-
-        if(currentNode->value==source)
-        {
-
-            tempNode->next=currentNode->next;
-            break;
-        }
-        tempNode=currentNode;
-        currentNode=currentNode->next;
-    }
-}
-///Delete a Node when Head is not given
-void DeleteNodeWhenHeadNotGiven(ll source)
-{
-    node *currentNode;
-    currentNode=Head;
-    while(currentNode!=NULL)
-    {
-        node *tempNode;
-        if(currentNode->value==source)
-        {
-            if(currentNode->next==NULL)
-            {
-                cout<<"it is not possible without Head pointer"<<endl;
-            }
-            else
-            {
-                tempNode=currentNode->next;
-                currentNode->value=tempNode->value;
-                tempNode=tempNode->next;
-                currentNode->next=tempNode;
-                break;
-
-            }
-        }
-        currentNode=currentNode->next;
-    }
-
-
-}
-///Delete After Node ;
-void DeleteNodeAfter(node *currentNode,ll source)
-{
-    currentNode=Head;
-    node *tempNode,*itemNode;
-    while(currentNode!=NULL)
-    {
-        if(currentNode->value==source)
-        {
-            ///cout<<"cu:"<<currentNode->value<<endl;
-            tempNode=currentNode->next;
-            ///cout<<"te:"<<tempNode->value<<endl;
-            itemNode=tempNode->next;
-            ///cout<<"ite:"<<itemNode->value<<endl;
-            currentNode->next=itemNode;
-            break;
-        }
-        currentNode=currentNode->next;
-    }
-}
-///Search Node ;
-void SearchNode(node *currentNode,ll source)
-{
-    currentNode==Head;
-    ll flag=0;
-    while(currentNode!=NULL)
-    {
-        if(currentNode->value==source)
-        {
-            flag=1;
-            break;
-        }
-        currentNode=currentNode->next;
-    }
-    if(flag)
-        cout<<"Yes the node is found"<<endl;
-    else
-        cout<<"No the node is not found"<<endl;
-
-
-}
-///Print  Node;
-void PrintNode(node *currentNode)
-{
-   /* while(currentNode!=NULL)
-    {
-        cout<<currentNode->value<<" ";
-        currentNode=currentNode->next;
-
-    }*/
-    if(currentNode==NULL)
-        return;
- cout<<currentNode->value<<" ";
-   return PrintNode(currentNode->next);
-
-
-}
-///Insert  Node
-void InsertNode(ll source)
+void At_first_insert(ll value)
 {
 
-    node *tempNode;
-    tempNode=(node *) malloc(sizeof(node));
-    tempNode->value=source;
-    tempNode->next=NULL;
+    node *newNode=(node *)malloc(sizeof(node));
+    newNode->value=value;
+    newNode->next=NULL;
+    newNode->previous=NULL;
     if(Head==NULL)
     {
-        Head=tempNode;
-        Last=tempNode;
+
+        Head=newNode;
+        Tail=newNode;
+        return;
+    }
+    newNode->next=Head;
+    Head->previous=newNode;
+    Head=newNode;
+
+}
+void At_last_insert(ll value)
+{
+     node *newNode=(node *)malloc(sizeof(node));
+    newNode->value=value;
+    newNode->next=NULL;
+    newNode->previous=NULL;
+    if(Head==NULL)
+    {
+        Head=newNode;
+        Tail=newNode;
+        return;
+    }
+    Tail->next=newNode;
+    newNode->previous=Tail;
+    Tail=newNode;
+}
+void At_middle_insert(ll value,ll position)
+{
+
+    node *newNode=(node *)malloc(sizeof(node));
+    newNode->value=value;
+    newNode->next=NULL;
+    newNode->previous=NULL;
+    ll i=1;
+   /// node *temp=(node *)malloc(sizeof(node));
+   node *temp;
+    temp=Head;
+    while((i<position-1) && temp->next!=NULL )
+    {
+
+        temp=temp->next;
+        i++;
+    }
+    newNode->next=temp->next;
+    newNode->previous=temp;
+    temp->next=newNode;
+    if(newNode->next)
+      newNode->next->previous=newNode;
+
+
+}
+void Print_node(node *currentNode)
+{
+    if(currentNode==NULL)
+        return;
+         cout<<currentNode->value<<" ";
+     Print_node(currentNode->next);
+
+}
+void DeleteNode(ll position)
+{
+
+    if(Head==NULL)
+        return;
+
+    if(position==1)
+    {
+        Head=Head->next;
+        if(Head==NULL)
+        {
+            Tail=NULL;
+
+        }
+        else
+        {
+            Head->previous=NULL;
+        }
     }
     else
     {
-        Last->next=tempNode;
-        Last=tempNode;
+        ///cout<<"In"<<endl;
+
+       node *tempNode =Head,*item;
+       ll i=1;
+       while(i<position && tempNode!=NULL)
+       {
+           i++;
+           tempNode=tempNode->next;
+
+       }
+       if(i==position)
+       {
+           item=tempNode->previous;
+           item->next=tempNode->next;
+           if(tempNode->next==NULL)
+            Tail=item;
+           else
+            tempNode->next->previous=item;
+
+       }
+       else
+       {
+           cout<<"it is not found"<<endl;
+       }
     }
 }
 int main()
 {
-    InsertNode(10);
-    InsertNode(20);
-    InsertNode(30);
-    InsertNode(2);
-    InsertNode(44);
-    InsertNode(0);
-
-    cout<<endl;
-    DeleteNode(Head,30);
-     PrintNode(Head);
-    cout<<endl;
-    SearchNode(Head,10);
-    cout<<endl;
-    SearchNode(Head,100);
-    cout<<endl;
-    DeleteNodeAfter(Head,30);
-    PrintNode(Head);
-    cout<<endl;
-    DeleteNodeWhenHeadNotGiven(30);
-    PrintNode(Head);
-
+    At_first_insert(5);
+    At_last_insert(7);
+    At_middle_insert(4,2);
+    Print_node(Head);
+    DeleteNode(3);
+    cout<<"Yes"<<endl;
+    Print_node(Head);
 
 
     return 0;
