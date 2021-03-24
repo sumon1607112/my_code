@@ -1,142 +1,71 @@
-#include <bits/stdc++.h>
-#define ll long long int
-
+#include<bits/stdc++.h>
 
 using namespace std;
-struct double_linked_list{
+struct  Node{
+  int value;
+  Node *left;
+  Node *right;
 
- ll value;
- struct double_linked_list *next;
- struct double_linked_list *previous;
+  Node()
+  {
+      value=0;
+      left=NULL;
+      right=NULL;
+  }
+
 
 };
-typedef struct double_linked_list node;
-node *Head=NULL,*Tail=NULL;
+int PreIndex=0;
+int findIndex(vector<int>&v,int start,int finish,int value)
+{
+    int result=-1;
+    for(int i=start;i<=finish;i++)
+    {
+        if(value==v[i])
+            return i;
+    }
+    return result;
+}
+Node *buildTree(vector<int>&in ,vector<int>&pr,int start,int finish)
+{
+    if(start>finish)
+        return NULL;
+    Node *temp=new Node();
+    temp->value=pr[PreIndex++];
+    temp->left=NULL;
+    temp->right=NULL;
+    if(start==finish)
+    {
+        return temp;
+    }
+    int inOrderIndex=findIndex(in,start,finish,temp->value);
+    temp->left=buildTree(in,pr,start,inOrderIndex-1);
+    temp->right=buildTree(in,pr,inOrderIndex+1,finish);
+    return temp;
+}
+vector<int>ans;
 
-void At_first_insert(ll value)
+void Inorder(Node *curr)
 {
 
-    node *newNode=(node *)malloc(sizeof(node));
-    newNode->value=value;
-    newNode->next=NULL;
-    newNode->previous=NULL;
-    if(Head==NULL)
-    {
-
-        Head=newNode;
-        Tail=newNode;
+    if(curr==NULL)
         return;
-    }
-    newNode->next=Head;
-    Head->previous=newNode;
-    Head=newNode;
-
+    Inorder(curr->left);
+    ans.push_back(curr->value);
+    Inorder(curr->right);
 }
-void At_last_insert(ll value)
-{
-     node *newNode=(node *)malloc(sizeof(node));
-    newNode->value=value;
-    newNode->next=NULL;
-    newNode->previous=NULL;
-    if(Head==NULL)
-    {
-        Head=newNode;
-        Tail=newNode;
-        return;
-    }
-    Tail->next=newNode;
-    newNode->previous=Tail;
-    Tail=newNode;
-}
-void At_middle_insert(ll value,ll position)
-{
 
-    node *newNode=(node *)malloc(sizeof(node));
-    newNode->value=value;
-    newNode->next=NULL;
-    newNode->previous=NULL;
-    ll i=1;
-   /// node *temp=(node *)malloc(sizeof(node));
-   node *temp;
-    temp=Head;
-    while((i<position-1) && temp->next!=NULL )
-    {
-
-        temp=temp->next;
-        i++;
-    }
-    newNode->next=temp->next;
-    newNode->previous=temp;
-    temp->next=newNode;
-    if(newNode->next)
-      newNode->next->previous=newNode;
-
-
-}
-void Print_node(node *currentNode)
-{
-    if(currentNode==NULL)
-        return;
-         cout<<currentNode->value<<" ";
-     Print_node(currentNode->next);
-
-}
-void DeleteNode(ll position)
-{
-
-    if(Head==NULL)
-        return;
-
-    if(position==1)
-    {
-        Head=Head->next;
-        if(Head==NULL)
-        {
-            Tail=NULL;
-
-        }
-        else
-        {
-            Head->previous=NULL;
-        }
-    }
-    else
-    {
-        ///cout<<"In"<<endl;
-
-       node *tempNode =Head,*item;
-       ll i=1;
-       while(i<position && tempNode!=NULL)
-       {
-           i++;
-           tempNode=tempNode->next;
-
-       }
-       if(i==position)
-       {
-           item=tempNode->previous;
-           item->next=tempNode->next;
-           if(tempNode->next==NULL)
-            Tail=item;
-           else
-            tempNode->next->previous=item;
-
-       }
-       else
-       {
-           cout<<"it is not found"<<endl;
-       }
-    }
-}
 int main()
 {
-    At_first_insert(5);
-    At_last_insert(7);
-    At_middle_insert(4,2);
-    Print_node(Head);
-    DeleteNode(3);
-    cout<<"Yes"<<endl;
-    Print_node(Head);
+    vector<int>inorder={7, 4, 3, 2, 8};
+    vector<int>preorder={2, 4, 7, 3, 8};
+    Node *root=new Node();
+    root=buildTree(inorder,preorder,0,inorder.size()-1);
+    Inorder(root);
+    for(int i=0;i<ans.size();i++)
+        cout<<ans[i]<<" ";
+
+
 
 
     return 0;
