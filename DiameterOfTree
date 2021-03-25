@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+int d=0;
+struct TreeNode{
+
+ int val;
+ TreeNode *left;
+ TreeNode *right;
+ TreeNode()
+ {
+     val=0;
+     left=NULL;
+     right=NULL;
+ }
+ TreeNode(int s)
+ {
+     val=s;
+     left=NULL;
+     right=NULL;
+ }
+
+};
+int hight(TreeNode *node)
+{
+    if(node==NULL)
+        return 0;
+   int  leftHight=hight(node->left);
+   int  rightHight=hight(node->right);
+    d=max(d,leftHight+rightHight);
+    return max(leftHight,rightHight)+1;
+
+
+}
+int main()
+{
+    ///Here should build a tree and the call the function
+
+
+    return 0;
+}
