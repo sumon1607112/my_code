@@ -29,7 +29,7 @@ bool AncestorPrint(TreeNode *curr,int target)
     {
         return true;
     }
-    if(AncestorPrint(curr->left) || AncestorPrint(curr->right))
+    if(AncestorPrint(curr->left,target) || AncestorPrint(curr->right,target))
     {
         cout<<curr->val<<" ";
         return true;
