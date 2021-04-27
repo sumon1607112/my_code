@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+vector<vector<int> >graph(100);
+set<int>s;
+stack<int>st;
+map<int,bool>mp;
+void dfs(int ss)
+{
+    s.insert(ss);
+    for(int i=0;i<graph[ss].size();i++)
+    {
+        if(!(s.find(graph[ss][i])!=s.end()))
+        {
+            dfs(graph[ss][i]);
+        }
+    }
+    st.push(ss);
+
+}
+int main()
+{
+
+    graph[5].push_back(2);
+    graph[5].push_back(0);
+    graph[2].push_back(3);
+    graph[3].push_back(1);
+    graph[4].push_back(0);
+    graph[4].push_back(1);
+
+    for(int i=0;i<=5;i++)
+    {
+        if(!(s.find(i)!=s.end()))
+        {
+            dfs(i);
+        }
+
+    }
+    while(!st.empty())
+    {
+        cout<<st.top()<<" ";
+        st.pop();
+    }
+    return 0;
+}
