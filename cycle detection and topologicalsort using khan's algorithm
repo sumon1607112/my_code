@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+vector<vector<int> >graph(100);
+queue<int>q;
+int cnt=0;
+int indegree[100];
+vector<int>ans;
+void bfs()
+{
+    while(!q.empty())
+    {
+        int item=q.front();
+        ans.push_back(item);
+        cnt++;
+        q.pop();
+        for(int i=0;i<graph[item].size();i++)
+        {
+            indegree[graph[item][i]]--;
+            if(indegree[graph[item][i]]==0)
+                q.push(graph[item][i]);
+        }
+    }
+}
+int main()
+{
+    graph[5].push_back(2);
+    graph[5].push_back(0);
+    graph[2].push_back(3);
+    graph[3].push_back(1);
+    graph[4].push_back(0);
+    graph[4].push_back(1);
+    for(int i=0;i<6;i++)
+    {
+
+        for(int j=0;j<graph[i].size();j++)
+        {
+
+            indegree[graph[i][j]]++;
+        }
+    }
+    for(int i=0;i<6;i++)
+    {
+
+        if(indegree[i]==0)
+            q.push(i);
+    }
+    bfs();
+    for(int i=0;i<ans.size();i++)
+        cout<<ans[i]<<" ";
+    cout<<endl;
+    if(cnt==5)
+        cout<<"cycle not detected"<<endl;
+    else
+        cout<<"cycle detected"<<endl;
+    return 0;
+}
