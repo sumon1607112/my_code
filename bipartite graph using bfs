@@ -1,0 +1,70 @@
+class Solution {
+public:
+vector<vector >g;
+vectorvisited;
+vectorcolor;
+
+bool isBipartite(vector<vector<int>>& graph) {
+    
+    int n=graph.size();
+    ///initialize graph ,color and visited array
+    for(int i=0;i<n;i++)
+    {
+        vector<int>v;
+        g.push_back(v);
+        color.push_back(-1);
+        visited.push_back(0);
+        
+    }
+    ///input the graph like 0==1->2->3->
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<graph[i].size();j++)
+        {
+            g[i].push_back(graph[i][j]);
+            g[graph[i][j]].push_back(i);
+        }
+    }
+    bool ans;
+    queue<int>q;
+    ///using bfs;
+    for(int i=0;i<n;i++)
+    {
+        if(color[i]!=-1)
+            continue;
+        color[i]=1;
+        visited[i]=1;
+        
+        q.push(i);
+        while(!q.empty())
+        {
+            int item=q.front();
+            q.pop();
+            for(int i=0;i<g[item].size();i++)
+            {
+                int child=g[item][i];
+                if(visited[g[item][i]]==0)
+                {
+                    visited[child]=1;
+                    color[child]=color[item]^1; ///xor or invert the color     
+                    q.push(child);
+                    
+                    
+                }
+                else if(color[item]==color[child])
+                    return false;
+            }
+            
+        }
+           
+        
+        
+        
+    }
+    return true;
+   
+    
+    
+    
+}
+};
