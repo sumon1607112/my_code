@@ -1,0 +1,41 @@
+map<int,int>mp;
+    int  find(vector<int>&v,int start,int finish,int value)
+    {
+        for(int i=start;i<=finish;i++)
+        {
+            if(v[i]==value)
+                return i;
+        }
+        return -1;
+    }
+    int postIndex=0;
+    TreeNode *build(vector<int>& in, vector<int>& p,int start,int finish)
+    {
+        if(start>finish)
+            return NULL;
+        TreeNode *temp=new TreeNode(p[p.size()-1-postIndex++]);
+       
+        
+        if(start==finish)
+            return temp;
+        
+        
+        int item=mp[temp->val];
+        temp->right=build(in,p,item+1,finish);
+        temp->left=build(in,p,start,item-1);
+        
+        
+        return temp;
+        
+    }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        for(int i=0;i<inorder.size();i++)
+        {
+            mp[inorder[i]]=i;
+        }
+        TreeNode *root=build(inorder,postorder,0,inorder.size()-1);
+        return root;
+        
+        
+        
+    }
