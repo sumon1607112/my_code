@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+void MergeTwo(vector<int>&v,int left,int right,int mid)
+{
+    int n=mid-left+1;
+    int m=right-mid;
+    cout<<"left:"<<left<<" "<<"mid:"<<mid<<" "<<"right:"<<right<<endl;
+
+
+    vector<int>a(n);
+    vector<int>b(m);
+
+    for(int i=0;i<n;i++)
+        a[i]=v[left+i];
+    for(int i=0;i<m;i++)
+    {
+        b[i]=v[mid+1+i];
+    }
+    int x=0;
+    int y=0;
+    int k=left;
+
+    while(x< n && y<m)
+    {
+        if(a[x]<=b[y])
+        {
+          v[k]=a[x];
+          x++;
+        }
+        else
+        {
+            v[k]=b[y];
+            y++;
+        }
+        k++;
+    }
+    while(x<n)
+    {
+        v[k]=a[x];
+        x++;
+        k++;
+    }
+    while(y<m)
+    {
+
+        v[k]=b[y];
+        y++;
+        k++;
+    }
+}
+
+void mergeSort(vector<int>&v,int start,int finish)
+{
+    cout<<"start:"<<start<<" "<<"finish:"<<finish<<endl;
+    if(start>=finish)
+        return ;
+
+    int mid=start + (finish-start)/2;
+    mergeSort(v,start,mid);
+    mergeSort(v,mid+1,finish);
+
+    MergeTwo(v,start,finish,mid);
+}
+
+int main()
+{
+    vector<int>v;
+    for(int i=8;i>=0;i--)
+        v.push_back(i);
+
+    mergeSort(v,0,v.size()-1);
+
+
+    for(int i=0;i<v.size();i++)
+        cout<<v[i]<<" ";
+
+
+    return 0;
+}
