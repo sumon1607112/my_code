@@ -1,0 +1,61 @@
+map<int,int>parent;
+  map<int,int>rank;
+ 
+   int  find(int v)
+   {
+       if(v==parent[v])
+           return v;
+       
+           
+       return find(parent[v]);
+   }
+    void union_set(int x,int y)
+    {
+        int a=find(x);
+        int b=find(y);
+        if(a==b)
+            return ;
+        if(rank[a]>rank[b])
+        {
+            parent[b]=a;
+        }
+        else
+        {
+            parent[a]=b;
+            if(rank[a]==rank[b])
+                rank[b]++;
+        }
+    }
+
+  
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n=edges.size();
+      
+        for(int i=1;i<=n;i++)
+        {
+            parent[i]=i;
+            rank[i]=0;
+        }
+        
+            
+        for(int i=0;i<edges.size();i++)
+        {
+            int a=edges[i][0];
+            int b=edges[i][1];
+            int x=find(a);
+            int y=find(b);
+            ///cout<<"x:"<<x<<" "<<"y:"<<y<<endl;
+          
+            if(x==y)
+                return {a,b};
+            else
+                union_set(x,y);
+        }
+       
+        return {};
+        
+       
+        
+        
+        
+    }
