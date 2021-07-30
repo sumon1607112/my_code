@@ -1,0 +1,26 @@
+map<int,int>mp;
+    int preIndex=0;
+    TreeNode * build(vector<int>&pr,vector<int>&p,int start,int finish)
+    {
+        if(start>finish)
+            return NULL;
+        TreeNode *temp=new TreeNode(pr[preIndex]);
+        ++preIndex;
+        if(start==finish)
+            return temp;
+        int postIndex=mp[pr[preIndex]];
+        temp->left=build(pr,p,start,postIndex);
+        temp->right=build(pr,p,postIndex+1,finish-1);
+        return temp;
+        
+    }
+    TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
+         for(int i=0;i<postorder.size();i++)
+         {
+             mp[postorder[i]]=i;
+         }
+        TreeNode *root=build(preorder,postorder,0,preorder.size()-1);
+        return root;
+        
+        
+    }
