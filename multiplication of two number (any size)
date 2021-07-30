@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    string  a="222789900998798903804";
+    string b="22229999999000";
+    string ans="";
+    for(int i=0;i<a.size()+b.size();i++)
+        ans+='0';
+    ///cout<<ans<<endl;
+    int c=0;
+    for(int i=b.size()-1;i>=0;i--)
+    {
+
+
+        string temp="";
+        int carry=0;
+        for(int k=0;k<c;k++)
+        temp+='0';
+        c++;
+        for(int j=a.size()-1;j>=0;j--)
+        {
+
+             int x=b[i]-'0';
+             int y=a[j]-'0';
+
+             int mul=x*y;
+
+             mul+=carry;
+             int abi=mul%10;
+             temp+=abi+'0';
+             carry=mul/10;
+        }
+        ///cout<<"temp:"<<temp<<endl;
+        temp+=carry+'0';
+
+
+
+        while(temp.size()!=ans.size())
+            temp+='0';
+
+
+        reverse(temp.begin(),temp.end());
+        ///cout<<"after:"<<temp<<endl;
+        int item=0;
+
+        for(int m=ans.size()-1;m>=0;m--)
+        {
+            int p=ans[m]-'0';
+            int q=temp[m]-'0';
+
+            int sum=p+q+item;
+           /// cout<<"sum:"<<sum<<endl;
+            ans[m]=sum%10 +'0';
+            item=sum/10;
+        }
+        ///cout<<"ans:"<<ans<<endl;
+
+
+    }
+    cout<<"ans:"<<ans<<endl;
+
+    return 0;
+}
