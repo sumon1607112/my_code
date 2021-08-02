@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    long long int t,h,m;
+    cin>>t;
+    while(t--)
+    {
+
+        cin>>h>>m;
+        
+
+        double item= double((m*5.0)/60.0);
+        double temp=double(5*h) + item;
+        int carry;
+        cout<<"temP:"<<temp<<endl;
+        if(temp>60)
+        {
+
+             carry=(60-(temp-60))/5;
+        }
+        else
+        {
+        carry= (60-temp)/5;
+        }
+        if(carry==0)
+            carry=12;
+
+        cout<<carry<<" "<<(60-m)%60<<endl;
+    }
+    return 0;
+}
