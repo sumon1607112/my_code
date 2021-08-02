@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int Partition(vector<int>&v,int low ,int high)
+{
+    int item=low-1;
+    int pivot=v[high];
+    for(int i=low ;i<high;i++)
+    {
+        if(v[i]<pivot)
+        {
+            item++;
+            swap(v[item],v[i]);
+        }
+    }
+    item++;
+    swap(v[item],v[high]);
+    return item;
+}
+void QuickSort(int low ,int high,vector<int>&v)
+{
+    if(low==high)
+        return;
+    int p=Partition(v,low,high);
+    QuickSort(low,p-1,v);
+    QuickSort(p+1,high,v);
+}
+
+int main()
+{
+  vector<int>v;
+  v.push_back(5);
+  v.push_back(4);
+  v.push_back(3);
+  v.push_back(1);
+  v.push_back(2);
+  v.push_back(57);
+  v.push_back(55);
+  QuickSort(0,v.size()-1,v);
+  for(int i=0;i<v.size();i++)
+    cout<<v[i]<<" ";
+
+
+    return 0;
+}
