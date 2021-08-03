@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+int LeftIndex(int parent)
+{
+   return 2*parent;
+}
+int RightIndex(int parent)
+{
+    return 2*parent +1;
+
+}
+int ParentIndex(int i)
+{
+
+    return i/2;
+}
+void heapify_function(vector<int>&v,int item,int Size)
+{
+    int left=LeftIndex(item);
+    int right=RightIndex(item);
+    int largest=item;
+    cout<<"left:"<<left<<" "<<"right:"<<right<<endl;
+    if(left<=Size && v[left]<v[largest])
+    {
+        largest=left;
+    }
+    if(right<=Size && v[right]<v[largest])
+    largest=right;
+    if(largest!=item)
+    {
+        swap(v[largest],v[item]);
+        heapify_function(v,largest,Size);
+    }
+
+
+}
+int main()
+{
+     vector<int>v;
+     v.push_back(0);
+     v.push_back(5);
+     v.push_back(4);
+     v.push_back(45);
+     v.push_back(111);
+     v.push_back(455);
+     v.push_back(11);
+     v.push_back(12);
+     int heap_size=v.size()-1;
+     for(int i=0;i<v.size();i++)
+        cout<<v[i]<<" ";
+     cout<<endl;
+     for(int i=heap_size/2;i>=1;i--)
+     {
+        heapify_function(v,i,heap_size);
+     }
+     for(int i=0;i<v.size();i++)
+        cout<<v[i]<<" ";
+        vector<int>ans;
+        int item=v.size()-1;
+    while(item!=1)
+    {
+        ans.push_back(v[1]);
+        swap(v[1],v[item]);
+        item--;
+        heapify_function(v,1,item);
+    }
+    for(int i=0;i<v.size();i++)
+        cout<<v[i]<<" ";
+
+
+
+
+
+    return 0;
+}
