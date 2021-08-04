@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+int PivotSearch(vector<int>&v,int low,int high)
+{
+
+    int mid=low + (high-low)/2;
+    if(v[mid]>v[mid+1])
+        return mid+1;
+    else
+    {
+        if(v[low]>v[mid])
+        {
+            PivotSearch(v,low ,mid-1);
+        }
+        else
+            PivotSearch(v,mid+1,high);
+    }
+    return high;
+
+}
+int BinarySearch(vector<int>&v,int low ,int high,int key)
+{
+    if(low >high)
+        return -1;
+    int mid=low+(high-low)/2;
+    if(v[mid]==key)
+    {
+        return mid;
+    }
+    else
+    {
+        if(key >v[mid])
+        {
+            BinarySearch(v,mid+1,high,key);
+        }
+        else
+        {
+            BinarySearch(v,low,mid-1,key);
+        }
+    }
+}
+int main()
+{
+    vector<int>v;
+    v.push_back(3);
+    v.push_back(5);
+    v.push_back(7);
+    v.push_back(8);
+    v.push_back(9);
+    v.push_back(12);
+    v.push_back(15);
+    v.push_back(17);
+    v.push_back(25);
+    v.push_back(28);
+    v.push_back(32);
+    v.push_back(37);
+
+
+   int p=PivotSearch(v,0,v.size()-1);
+   cout<<"p:"<<p<<endl;
+
+int key=100;
+
+    cout<<BinarySearch(v,0,p,key)<<endl;
+int item=BinarySearch(v,0,p,key);
+cout<<v[item]<<endl;
+       if(key>=v[p] && key<=v[v.size()-1])
+        cout<<v[BinarySearch(v,p,v.size()-1,key)]<<endl;
+       else
+        {
+            cout<<"In2"<<endl;
+            cout<<v[BinarySearch(v,0,p-1,key)]<<endl;
+        }
+
+
+
+
+    return 0;
+}
