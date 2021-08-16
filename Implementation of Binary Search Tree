@@ -1,0 +1,260 @@
+#include <bits/stdc++.h>
+#define ll long long int
+
+
+using namespace std;
+typedef struct tree
+{
+    ll value;
+    struct tree *LeftNode;
+    struct tree *RightNode;
+
+} node;
+node *root=NULL;
+vector<ll>ans;
+bool RootToLeapPathSum(node *currentNode ,ll sum)
+{
+    if(currentNode==NULL)
+        return false;
+    if(currentNode->LeftNode==NULL && currentNode->RightNode==NULL)
+    {
+        if(currentNode->value==sum)
+        {
+            ans.push_back(currentNode->value);
+            return true;
+        }
+    }
+    if(RootToLeapPathSum(currentNode->LeftNode,sum-currentNode->value))
+    {
+
+        ans.push_back(currentNode->value);
+        return true;
+
+    }
+    if(RootToLeapPathSum(currentNode->RightNode,sum-currentNode->value))
+    {
+        ans.push_back(currentNode->value);
+        return true;
+    }
+}
+void levelBylevelPrinting(node *currenNode)
+{
+
+    if(currenNode==NULL)
+        return;
+    queue<node *>q1;
+    queue<node *>q2;
+    q1.push(root);
+    while(!q1.empty() || !q2.empty())
+    {
+       while(!q1.empty())
+       {
+
+            node *item=q1.front();
+            q1.pop();
+            cout<<item->value<<" ";
+            if(item->LeftNode)
+                q2.push(item->LeftNode);
+            if(item->RightNode)
+                q2.push(item->RightNode);
+       }
+       cout<<endl;
+       while(!q2.empty())
+       {
+           node *temp=q2.front();
+           q2.pop();
+           cout<<temp->value<<" ";
+           if(temp->LeftNode)
+            q1.push(temp->LeftNode);
+           if(temp->RightNode)
+            q1.push(temp->RightNode);
+       }
+    }
+}
+ll depthNode(node *currentNode)
+{
+    if(currentNode==NULL)
+    {
+
+        return 0;
+    }
+
+    ll leftdepth=  depthNode(currentNode->LeftNode);
+    ll rightdepth= depthNode(currentNode->RightNode);
+    return 1+max(leftdepth,rightdepth);
+
+}
+node *findMin(node *currentNode)
+{
+    if(currentNode->LeftNode==NULL)
+        return currentNode;
+    return findMin(currentNode->LeftNode);
+
+}
+node *findMax(node *currentNode)
+{
+    if(currentNode->RightNode==NULL)
+        return currentNode;
+    return findMax(currentNode->RightNode);
+}
+node *deleteNode(node *currentNode,ll source)
+{
+     if(currentNode==NULL)
+        return NULL;
+     else if(source<currentNode->value)
+        currentNode=deleteNode(currentNode->LeftNode,source);
+     else if(source>currentNode->value)
+        currentNode=deleteNode(currentNode->RightNode,source);
+     else
+     {
+         if(currentNode->LeftNode==NULL && currentNode->RightNode==NULL)
+         {
+             currentNode=NULL;
+         }
+         else if(currentNode->LeftNode==NULL)
+            currentNode=currentNode->RightNode;
+         else if(currentNode->RightNode==NULL)
+            currentNode=currentNode->LeftNode;
+         else
+         {
+             node *tempNode=findMax(currentNode->LeftNode);
+             currentNode->value=tempNode->value;
+             currentNode->LeftNode=deleteNode(currentNode->LeftNode,tempNode->value);
+         }
+
+     }
+     return currentNode;
+
+}
+void PreOrderTraversal(node *temp)
+{
+    if(temp==NULL)
+        return;
+    cout<<temp->value<<" ";
+    PreOrderTraversal(temp->LeftNode);
+    PreOrderTraversal(temp->RightNode);
+}
+void InorderTraversal(node *temp)
+{
+    if(temp==NULL)
+        return;
+    InorderTraversal(temp->LeftNode);
+    cout<<temp->value<<" ";
+    InorderTraversal(temp->RightNode);
+}
+void PostOrderTraversal(node *temp)
+{
+    if(temp==NULL)
+        return ;
+    PostOrderTraversal(temp->LeftNode);
+    PostOrderTraversal(temp->RightNode);
+    cout<<temp->value<<" ";
+}
+ll searchofNode(ll source)
+{
+    node *currentNode=root;
+    ll flag=0;
+    while(1)
+    {
+        if(currentNode->value==source)
+        {
+            flag=1;
+            break;
+        }
+        else if(currentNode->value>=source)
+        {
+            currentNode=currentNode->LeftNode;
+
+        }
+        else
+            currentNode=currentNode->RightNode;
+        if(currentNode==NULL)
+            break;
+
+
+    }
+    return flag;
+}
+void insertNode (ll source)
+{
+    node *tempNode;
+    node *currentNode=NULL;
+    node *parentNode=NULL;
+    tempNode=(node *)malloc(sizeof(tempNode));
+    tempNode->value=source;
+    tempNode->LeftNode=NULL;
+    tempNode->RightNode=NULL;
+    if(root==NULL)
+    {
+        root=tempNode;
+    }
+    else
+    {
+        currentNode=root;
+        parentNode=NULL;
+        while(1)
+        {
+            parentNode=currentNode;
+            if(source<=parentNode->value)
+            {
+                currentNode=currentNode->LeftNode;
+                if(currentNode==NULL)
+                {
+                    parentNode->LeftNode=tempNode;
+                    return;
+                }
+            }
+            else
+            {
+                currentNode=currentNode->RightNode; 
+                if(currentNode==NULL)
+                {
+                    parentNode->RightNode=tempNode;
+                    return;
+                }
+            }
+
+        }
+    }
+
+}
+int main()
+{
+    cout<<"insert the node"<<endl;
+     insertNode(45);
+    insertNode(54);
+    insertNode(40);
+    insertNode(49);
+    insertNode(38);
+    insertNode(70);
+    insertNode(30);
+    insertNode(39);
+    insertNode(41);
+    insertNode(45);
+    insertNode(44);
+   cout<<"search the node"<<endl;
+   if(searchofNode(20))
+    cout<<"yre"<<endl;
+   else
+    cout<<"no"<<endl;
+    cout<<"preorder traversal"<<endl;
+    PreOrderTraversal(root);
+    cout<<endl;
+    cout<<"inorder traversal"<<endl;
+    InorderTraversal(root);
+    cout<<endl;
+    cout<<"postorder traversal"<<endl;
+    PostOrderTraversal(root);
+    cout<<endl;
+    cout<<"delete node"<<endl;
+    deleteNode(root,38);
+    cout<<endl;
+    InorderTraversal(root);
+    cout<<endl;
+    cout<<"depth of node"<<endl;
+    cout<<depthNode(root)<<endl;
+    cout<<"level by level printing"<<endl;
+    levelBylevelPrinting(root);
+
+    return 0;
+}
