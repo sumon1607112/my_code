@@ -1,0 +1,69 @@
+///bottom up approach
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    string s="leetcode";
+    map<string,int>mp;
+    mp["I"]=1;
+    mp["am"]=1;
+    mp["ace"]=1;
+    mp["a"]=1;
+    mp["leet"]=1;
+    mp["code"]=1;
+
+    int len=s.size();
+    int arr[len][len];
+    for(int i=0;i<len;i++)
+    {
+
+        for(int j=0;j<len;j++)
+            arr[i][j]=0;
+    }
+    for(int i=1;i<=len;i++)
+    {
+    ///len of string 
+        for(int j=0;j<len;j++)
+        {
+
+            int item=j+i-1;
+
+            if(j+i<=s.size())
+            {
+            ///checking the boundary
+            
+            cout<<"item:"<<item<<endl;
+            string temp=s.substr(j,i);
+            if(mp[temp]==1)
+            {
+
+                arr[j][item]=1;
+                continue;
+            }
+            for(int k=j+1;k<=item;k++)
+            {
+            ///split the string 
+               if(arr[j][k-1] && arr[k][item])
+               {
+                   arr[j][item]=1;
+                   break;
+               }
+
+            }
+
+            }
+
+
+        }
+    }
+    for(int i=0;i<len;i++)
+    {
+
+        for(int j=0;j<len;j++)
+            cout<<arr[i][j]<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
