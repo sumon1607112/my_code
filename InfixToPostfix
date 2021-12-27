@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+bool oper(char ch)
+{
+    if(ch=='+' || ch=='-' || ch=='*' || ch=='/')
+        return true;
+    return false;
+}
+int precedence(char ch)
+{
+    if(ch=='+')
+        return 1;
+    else if(ch=='-')
+        return 1;
+    else if(ch=='*')
+        return 2;
+    else if(ch=='/')
+        return 2;
+}
+int main()
+{
+    string s="(a+b/c*(d+e)-f)";
+    stack<char>opt;
+    stack<char>postfix;
+    for(int i=0;i<s.size();i++)
+    {
+        if(s[i]>='a' && s[i]<='z')
+        {
+            postfix.push(s[i]);
+        }
+        else if(s[i]=='+' || s[i]=='-' || s[i]=='*' || s[i]=='/')
+        {
+            if(opt.empty())
+                opt.push(s[i]);
+            else if(precedence(s[i])>precedence(opt.top()))
+                opt.push(s[i]);
+            else
+            {
+                while(!opt.empty() && oper(opt.top()) &&  precedence(s[i])<=precedence(opt.top()))
+                {
+                    postfix.push(opt.top());
+                    opt.pop();
+                }
+                opt.push(s[i]);
+            }
+        }
+        else if(s[i]=='(')
+        {
+
+            opt.push(s[i]);
+        }
+        else if(s[i]==')')
+        {
+            while(!opt.empty() )
+            {
+                if(opt.top()=='(')
+                {
+                    opt.pop();
+                    break;
+                }
+                cout<<"top:"<<opt.top()<<endl;
+                postfix.push(opt.top());
+                opt.pop();
+            }
+        }
+
+
+    }
+    while(!opt.empty())
+    {
+        postfix.push(opt.top());
+        opt.pop();
+    }
+    string ans="";
+    while(!postfix.empty())
+    {
+
+        ans+=postfix.top();
+
+        postfix.pop();
+    }
+    reverse(ans.begin(),ans.end());
+    cout<< ans<<endl;
+}
