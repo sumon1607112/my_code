@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define MaxSize 100
+
+typedef struct{
+ int head,tail;
+ int data[MaxSize+1];
+
+
+}node;
+
+
+
+
+void push(int s, node *curr)
+{
+    if((curr->tail+1)% (MaxSize+1)==curr->head)
+    {
+        cout<<"queue is full"<<endl;
+        return ;
+    }
+    else
+        {
+            curr->data[curr->tail]=s;
+            curr->tail=(curr->tail+1)% (MaxSize+1);
+        }
+}
+int pop(node * curr)
+{
+    int item;
+    if(curr->head==curr->tail)
+    {
+        cout<<"queue is empty"<<endl;
+        return -1;
+    }
+    else
+    {
+        item=curr->data[curr->head];
+        curr->head=(curr->head+1) % (MaxSize+1);
+
+    }
+    return item;
+}
+int main()
+{
+     node Queue;
+     Queue.head=0;
+     Queue.tail=0;
+     push(10,&Queue);
+     push(12,&Queue);
+     push(14,&Queue);
+     push(15,&Queue);
+     push(111,&Queue);
+     push(1,&Queue);
+
+     while(Queue.head!=Queue.tail)
+     {
+         cout<<pop(&Queue)<<endl;
+     }
+
+    return 0;
+}
