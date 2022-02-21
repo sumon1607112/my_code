@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define MaxSize 100
+
+typedef struct{
+ int top;
+ int data[MaxSize];
+
+
+}node;
+
+
+
+
+void push(int s, node *curr)
+{
+    if(curr->top<MaxSize)
+    {
+        curr->data[curr->top]=s;
+        curr->top=curr->top+1;
+    }
+    else
+        cout<<"stack is full"<<endl;
+}
+int pop(node * curr)
+{
+    int item;
+    if(curr->top==0)
+    {
+        cout<<"stack is empty"<<endl;
+        return -1;
+    }
+    else
+    {
+        curr->top=curr->top-1;
+        item=curr->data[curr->top];
+
+    }
+    return item;
+}
+int main()
+{
+     node Stack;
+     Stack.top=0;
+     push(10,&Stack);
+     push(12,&Stack);
+     push(14,&Stack);
+     push(15,&Stack);
+     push(111,&Stack);
+     push(1,&Stack);
+
+     while(Stack.top!=0)
+     {
+         cout<<pop(&Stack)<<endl;
+     }
+
+    return 0;
+}
