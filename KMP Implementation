@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+#define ll long long int
+
+
+using namespace std;
+vector<int>constructArrayOfLps(string pattern)
+{
+
+    vector<int>lps(pattern.size());
+    int index=0;
+    for(int i=1;i<pattern.size();)
+    {
+       if(pattern[i]==pattern[index])
+       {
+           lps[i]=index+1;
+           index++;
+           i++;
+
+       }
+       else
+       {
+           if(index!=0)
+           {
+               index=lps[index-1];
+
+           }
+           else
+           {
+              lps[i]=index;
+              i++;
+           }
+       }
+
+    }
+    return lps;
+}
+void kmpImplement(string text,string pattern)
+{
+    vector<int>lps=constructArrayOfLps(pattern);
+    ll i=0,j=0;
+    while(i<text.size())
+    {
+        if(text[i]==pattern[j])
+        {
+            i++;
+            j++;
+        }
+        else
+        {
+            if(j!=0)
+            {
+                j=lps[j-1];
+
+            } 
+            else
+                i++;
+        }
+        if(j==pattern.size())
+        {
+            cout<<"found"<<endl;
+            return;
+        }
+    }
+    cout<<"not found"<<endl;
+}
+int main()
+{
+    string text;
+    string pattern;
+   getline(cin,text);
+   getline(cin,pattern);
+   kmpImplement(text,pattern);
+
+    return 0;
+}
