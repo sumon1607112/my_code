@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    double item,temp;
+    cout<<"enter the number:"<<endl;
+    cin>>item;
+    if(item==0)
+    {
+
+        cout<<double(0)<<endl;
+        return 0;
+    }
+    double start=0;
+    double end=item;
+    double mid;
+    while(start<=end)
+    {
+         mid=(start+end)/2;
+        if(mid==item/mid)
+            return mid;
+        else if(mid<item/mid)
+        {
+            start=mid+0.00001;
+        }
+        else
+            end=mid-0.00001;
+    }
+    cout<<"mid:"<<mid<<endl;
+    return 0;
+}
