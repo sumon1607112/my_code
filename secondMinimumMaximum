@@ -24,7 +24,7 @@ int main()
             second=first;
             first=i;
         }
-        else if(v[i]>v[second])
+        else if(second!=-1 && v[i]>v[second] )
         {
 
             second=i;
