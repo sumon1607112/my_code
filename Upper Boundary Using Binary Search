@@ -20,13 +20,15 @@ int main()
     int low=0;
     int key=8;
     int mid;
+    if(key>=v[v.size()-1)];
+    return v.size();
     while(low<high)
     {
 
          mid=low+(high-low)/2;
          cout<<"low:"<<low<<" "<<"high:"<<high<<" "<<"Mid:"<<mid<<endl;
          cout<<"value:"<<v[mid]<<endl;
-        if(key>v[mid])
+        if(key>=v[mid])
             low=mid+1;
         else
             high=mid;
