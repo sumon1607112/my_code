@@ -65,6 +65,7 @@ int main()
 {
     int n=100;
     int e=8;
+    cout<<"checking the fucking git"<<endl;
 
 vector<vector< pair<int,int> > >graph(n);
    graph[0].push_back(make_pair(1,1));
